@@ -196,16 +196,25 @@ export class MatricksDial extends DeckAction<MatricksDialSettings> {
 // Colour picker
 // ---------------------------------------------------------------------------------------------
 
-type ColorSettings = { color?: string; white?: "keep" | "zero" | "full"; label?: string };
+type ColorSettings = {
+	color?: string;
+	white?: "keep" | "zero" | "full";
+	/** Group to colour; empty = the current selection. */
+	group?: string;
+	label?: string;
+};
 
 /**
- * Sends the key's colour to the selected fixtures as RGB mix values (ColorRGB_R/G/B, 0..100).
- * No preset pool needed: pick a palette colour or any custom colour.
+ * Sends the key's colour as RGB mix values (ColorRGB_R/G/B, 0..100) to the selected fixtures,
+ * or to a group. No preset pool needed: pick a palette colour or any custom colour.
+ *
+ * With a group, the key selects it first (`Group N`), like pressing the group on the console:
+ * grandMA3 2.4 answers `Group 1 Attribute "…" At 100` with "Not implemented".
  */
 @action({ UUID: "org.open-gma3-deck.color" })
 export class ColorKey extends DeckAction<ColorSettings> {
 	constructor() {
-		super([]);
+		super(["names"]);
 	}
 
 	override onKeyDown(ev: KeyDownEvent<ColorSettings>): void {
@@ -213,6 +222,8 @@ export class ColorKey extends DeckAction<ColorSettings> {
 		const hex = resolveColor(s.color, "red");
 		const n = parseInt(hex.slice(1), 16);
 		const pct = (c: number) => formatNumber(Math.round((c / 255) * 1000) / 10);
+		const group = text(s.group).trim();
+		if (group) ma3.cmd(`Group ${group}`);
 		ma3.cmds([
 			`Attribute "ColorRGB_R" At ${pct((n >> 16) & 255)}`,
 			`Attribute "ColorRGB_G" At ${pct((n >> 8) & 255)}`,
@@ -227,8 +238,15 @@ export class ColorKey extends DeckAction<ColorSettings> {
 		const value = text(s.color, "red");
 		const named = PALETTE.find(([name]) => name === value.toLowerCase());
 		const label = text(s.label, named ? named[0][0].toUpperCase() + named[0].slice(1) : value.toUpperCase());
-		// Always drawn lit, so the key shows the actual colour it sends.
-		this.drawKey(inst, { top: "Color", label, color: value, active: true, style: "backlit" });
+		const group = text(s.group).trim();
+		// Always drawn lit, so the key shows the actual colour it sends; the top line says where.
+		this.drawKey(inst, {
+			top: group ? (state.name(`Group ${group}`) ?? `Group ${group}`) : "Color",
+			label,
+			color: value,
+			active: true,
+			style: "backlit",
+		});
 	}
 }
 

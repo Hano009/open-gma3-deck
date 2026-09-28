@@ -44,6 +44,12 @@ const k = (preset) => action("ma-key", { preset });
 const bank = (id) => action("bank", { bank: id });
 const exec = (n) => action("executor", { exec: String(n), func: "key" });
 const attrDial = () => action("attribute-dial", { mode: "bank" });
+const fixedDial = (attr, label) => action("attribute-dial", { mode: "fixed", attr, label });
+const group = (n) => action("pool", { type: "Group", number: String(n) });
+
+/** One row of the colour picker: every key selects the group, then sets its colour. */
+const COLORS = ["white", "red", "orange", "yellow", "green", "cyan", "blue", "magenta"];
+const colorRow = (groupNo) => COLORS.map((c) => action("color", { color: c, group: String(groupNo), white: c === "white" ? "full" : "zero" }));
 
 /** Rows of actions -> { "col,row": action }. `null` leaves a key empty. */
 function grid(rows) {
@@ -77,6 +83,26 @@ const PROFILES = [
 			[201, 202, 203, 204, 205, 206, 207, 208].map(exec),
 			[209, 210, 211, 212, 213, 214, 215].map(exec).concat([action("status")]),
 			[107, 108, 109, 110, 111, 112, 113, 114].map(exec),
+		]),
+	},
+	{
+		file: "open-gma3-deck-color-picker-xl",
+		name: "grandMA3 Color Picker",
+		model: MODELS.xl,
+		keys: grid([1, 2, 3, 4].map(colorRow)),
+	},
+	{
+		file: "open-gma3-deck-color-picker-plus-xl",
+		name: "grandMA3 Color Picker",
+		model: MODELS.plusXl,
+		keys: grid([1, 2, 3, 4].map((n) => [group(n), ...colorRow(n)])),
+		dials: dials([
+			fixedDial("ColorRGB_R", "Red"),
+			fixedDial("ColorRGB_G", "Green"),
+			fixedDial("ColorRGB_B", "Blue"),
+			fixedDial("ColorRGB_W", "White"),
+			fixedDial("HSB_Hue", "Hue"),
+			fixedDial("HSB_Saturation", "Saturation"),
 		]),
 	},
 	{

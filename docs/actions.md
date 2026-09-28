@@ -90,6 +90,8 @@ Properties: Blocks, Groups, Wings, Width, Shift and Shuffle for each axis (X, Y,
 
 Sends the key's colour to the selected fixtures as RGB mix values (`ColorRGB_R / G / B`, 0–100). Pick a palette colour or any custom colour. Optionally, white can be set to 0 or 100 at the same time. The key always shows the colour it sends.
 
+With a **Group** set, the key colours that group in one press: it selects the group first (`Group 3`), like pressing it on the console, then sets the colour. The group's name from the show is shown at the top of the key. grandMA3 2.4 doesn't accept an attribute value for a group in a single command (`Group 1 Attribute … At …` returns *Not implemented*), so the group becomes the selection.
+
 ### Window / Menu
 
 Opens a grandMA3 menu, overlay or window: Menu, Command, Selection, MAtricks, Phaser Editor, Playbacks, Masters, Encoders, At, At Filter, Store Options, Oops, Command History, Running Playbacks, Pools, Add Window, Patch, Settings, Backup, Messages, System Monitor. You can also open any other grandMA3 menu by typing its name.

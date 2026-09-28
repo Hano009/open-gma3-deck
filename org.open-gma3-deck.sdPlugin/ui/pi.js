@@ -249,9 +249,16 @@ const SCHEMAS = {
 		],
 	},
 	color: {
-		info: "Sends this colour to the selected fixtures as RGB mix values (ColorRGB_R / G / B). No preset pool needed.",
+		info: "Sends this colour as RGB mix values (ColorRGB_R / G / B) to the selected fixtures, or to a group. No preset pool needed.",
 		fields: [
 			{ key: "color", label: "Color", type: "palette" },
+			{
+				key: "group",
+				label: "Group",
+				type: "text",
+				placeholder: "current selection",
+				hint: "Optional group number. The key selects that group first, like pressing it on the console, then sets the colour.",
+			},
 			{
 				key: "white",
 				label: "White",

@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.2] - 2026-09-28
+
+### Added
+
+- Color Picker keys can target a group: one press selects the group and sets the colour. The
+  group name from the show is shown on the key.
+- Colour picker profiles for Stream Deck XL (4 groups × 8 colours) and + XL (with group keys and
+  RGB / white / hue / saturation dials).
+- `npm run preview` renders the README key image with the real key renderer.
+
+### Fixed
+
+- Outline style: active keys keep their outline look (heavier frame, inner ring, coloured label)
+  instead of being filled like backlit keys.
+
 ## [0.1.1] - 2026-09-28
 
 ### Fixed

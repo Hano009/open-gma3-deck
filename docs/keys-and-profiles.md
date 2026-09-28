@@ -41,9 +41,11 @@ The [release](https://github.com/Hano009/open-gma3-deck/releases/latest) include
 |---|---|---|
 | Programmer (XL)<br>`open-gma3-deck-programmer-xl` | Stream Deck XL | Status, 6 encoder banks, command line / fixture, group, preset, highlight / keypad / Thru, +, At, Full / Store, Update, Delete, Oops, Clear, Please |
 | Executors (XL)<br>`open-gma3-deck-executors-xl` | Stream Deck XL | Page −/+, executors 101–114 and 201–215 following the page, status |
+| Color Picker (XL)<br>`open-gma3-deck-color-picker-xl` | Stream Deck XL | One row per group (groups 1–4), 8 colours each: white, red, orange, yellow, green, cyan, blue, magenta. One press colours that group. |
+| Color Picker (+ XL)<br>`open-gma3-deck-color-picker-plus-xl` | Stream Deck + XL | The same, with a Group key at the start of each row, and 6 dials for Red, Green, Blue, White, Hue and Saturation of the selection |
 | Encoders (+)<br>`open-gma3-deck-encoders-plus` | Stream Deck + | 6 bank keys, layer, resolution, 4 attribute encoders |
 | Programmer (+ XL)<br>`open-gma3-deck-programmer-plus-xl` | Stream Deck + XL | The programmer layout on 9 × 4 keys, with layer and resolution, and 6 attribute encoders |
 
-After importing, change any key in the Stream Deck app as usual. To rebuild the profiles after changing the layouts in `tools/make-profiles.mjs`, run `npm run profiles`. The image at the top of this page comes from the real key renderer; run `npm run preview` to update it.
+After importing, change any key in the Stream Deck app as usual. For the colour pickers, set each row to your own groups: select the keys of a row and change *Group* (the Stream Deck app lets you edit several keys of the same action one by one). To rebuild the profiles after changing the layouts in `tools/make-profiles.mjs`, run `npm run profiles`. The image at the top of this page comes from the real key renderer; run `npm run preview` to update it.
 
 > The Stream Deck + XL profile uses the device model code `20GBX9901`. If the Stream Deck app offers it for the wrong device, please [open an issue](https://github.com/Hano009/open-gma3-deck/issues).
