@@ -92,4 +92,6 @@ Bug reports, grandMA3 version reports, Mac testing and pull requests are very we
 
 [MIT](LICENSE) © 2026 Fredrik Fedoriw and contributors.
 
+The plugin bundles the Elgato Stream Deck SDK, ws and zod (MIT) and tslib (0BSD). Their licences are included in the plugin as `bin/THIRD-PARTY-NOTICES.txt`, generated at build time. All other code, icons and images in this repository are original work under the MIT licence.
+
 grandMA3 and MA Lighting are trademarks of MA Lighting Technology GmbH. Stream Deck and Elgato are trademarks of Corsair Memory, Inc. This is an independent project, not affiliated with, endorsed by or supported by MA Lighting or Elgato.

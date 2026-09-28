@@ -4,6 +4,14 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] - 2026-09-28
+
+### Fixed
+
+- The plugin package now includes `LICENSE` and `THIRD-PARTY-NOTICES.txt` with the licences of
+  the bundled libraries (Elgato Stream Deck SDK, ws, zod: MIT; tslib: 0BSD). The notices are
+  generated from the bundle at build time.
+
 ## [0.1.0] - 2026-09-28
 
 First public preview.

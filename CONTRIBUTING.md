@@ -26,6 +26,8 @@ without a console.
 
 ## Guidelines
 
+- **Licences.** Only add dependencies with permissive licences (MIT, BSD, ISC, Apache-2.0). Bundled
+  packages are listed automatically in `bin/THIRD-PARTY-NOTICES.txt` by the build.
 - **No runtime dependencies.** The plugin should only depend on `@elgato/streamdeck` and Node's
   built-in modules, and the property inspector must work offline (no CDN scripts or fonts).
 - **Verify grandMA3 syntax.** Every command the plugin sends should be checked on a real grandMA3
