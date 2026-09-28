@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Open grandMA3 Deck</title>
+		<link rel="stylesheet" href="pi.css" />
+	</head>
+	<body>
+		<!-- Everything is self-contained: no CDN, works on offline show networks. -->
+		<form id="action" autocomplete="off"></form>
+
+		<details id="connection">
+			<summary>grandMA3 connection <span id="status-dot" class="dot"></span></summary>
+			<div class="row">
+				<label class="label" for="session-select">Session</label>
+				<div class="field">
+					<select id="session-select"></select>
+					<div class="buttons"><button type="button" id="manage-sessions" class="secondary">Manage sessions…</button></div>
+				</div>
+			</div>
+			<div id="sessions-inline" hidden></div>
+			<form id="globals" autocomplete="off"></form>
+			<div class="row">
+				<span class="label"></span>
+				<div class="field buttons">
+					<button type="button" id="test">Send test command</button>
+					<button type="button" id="sync-names" class="secondary">Sync names now</button>
+				</div>
+			</div>
+			<div class="row">
+				<span class="label">Status</span>
+				<div class="field"><pre id="status">waiting for plugin…</pre></div>
+			</div>
+			<div class="help">
+				<b>grandMA3 setup</b> (Menu → In &amp; Out → OSC): add a line with <i>Destination IP</i> = this computer, <i>Port</i> = the
+				port above, <i>Prefix</i> = the prefix above, and enable <i>Receive</i> and <i>Receive Command</i>. Enable <i>Send</i> with
+				destination port = the feedback port for live executor feedback. Then enable <i>Enable Input</i> and <i>Enable Output</i>
+				for OSC in the same menu.<br /><br />
+				<b>Names and feedback:</b> add a second OSC line with <i>Destination IP</i> = this computer, <i>Port</i> = the feedback
+				port, <i>Receive</i> = No, <i>Send</i> = Yes and <i>Send Command</i> = Yes. Enter that line's number as <i>Feedback line</i>.
+			</div>
+		</details>
+
+		<script src="sessions.js"></script>
+		<script src="pi.js"></script>
+	</body>
+</html>

@@ -1,0 +1,59 @@
+{
+	"name": "open-gma3-deck",
+	"version": "0.1.0",
+	"description": "Free, open-source Stream Deck plugin that turns a Stream Deck XL, + or + XL into a grandMA3 command wing, encoder wing and executor extension over OSC.",
+	"keywords": [
+		"grandma3",
+		"grandMA3",
+		"stream-deck",
+		"streamdeck",
+		"elgato",
+		"osc",
+		"lighting",
+		"command-wing",
+		"executor",
+		"encoder"
+	],
+	"homepage": "https://github.com/Hano009/open-gma3-deck#readme",
+	"bugs": {
+		"url": "https://github.com/Hano009/open-gma3-deck/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Hano009/open-gma3-deck.git"
+	},
+	"author": "Fredrik Fedoriw <fredrik.fedoriw@gmail.com>",
+	"license": "MIT",
+	"private": true,
+	"type": "module",
+	"engines": {
+		"node": ">=22.18"
+	},
+	"scripts": {
+		"build": "rollup -c",
+		"watch": "rollup -c -w --watch.onEnd=\"streamdeck restart org.open-gma3-deck\"",
+		"test": "node --test \"test/**/*.test.mjs\"",
+		"icons": "node tools/make-icons.mjs",
+		"validate": "streamdeck validate org.open-gma3-deck.sdPlugin",
+		"pack": "npm run build && streamdeck pack org.open-gma3-deck.sdPlugin --output dist --force",
+		"link": "streamdeck link org.open-gma3-deck.sdPlugin",
+		"osc-monitor": "node tools/osc-monitor.mjs",
+		"profiles": "node tools/make-profiles.mjs",
+		"command-test": "node tools/command-test.mjs"
+	},
+	"devDependencies": {
+		"@elgato/cli": "^1.10.1",
+		"@rollup/plugin-commonjs": "^29.0.2",
+		"@rollup/plugin-node-resolve": "^15.2.2",
+		"@rollup/plugin-terser": "^1.0.0",
+		"@rollup/plugin-typescript": "^12.1.0",
+		"@tsconfig/node20": "^20.1.2",
+		"@types/node": "~24.1.0",
+		"rollup": "^4.0.2",
+		"tslib": "^2.6.2",
+		"typescript": "^5.2.2"
+	},
+	"dependencies": {
+		"@elgato/streamdeck": "^3.0.0"
+	}
+}

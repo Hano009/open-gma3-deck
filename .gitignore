@@ -1,0 +1,12 @@
+# Node.js
+node_modules/
+
+# Build output
+*.sdPlugin/bin/
+*.sdPlugin/logs/
+dist/
+*.streamDeckPlugin
+
+# OS / editor
+.DS_Store
+Thumbs.db

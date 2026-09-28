@@ -1,0 +1,28 @@
+name: Release
+
+# Push a tag like v0.1.0 to build the .streamDeckPlugin and attach it to a GitHub release.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run pack
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.streamDeckPlugin
+            profiles/*.streamDeckProfile
+          generate_release_notes: true

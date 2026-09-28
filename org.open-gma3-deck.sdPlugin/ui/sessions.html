@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Sessions – Open grandMA3 Deck</title>
+		<link rel="stylesheet" href="pi.css" />
+	</head>
+	<body class="popup">
+		<h2>Sessions</h2>
+		<p class="help">
+			A session is a saved connection: one per console, onPC or show network. Switching sessions updates every Stream Deck
+			action at once. You can also switch with the <b>Session</b> key.
+		</p>
+		<div id="root"></div>
+		<div class="popup-footer buttons">
+			<button type="button" id="test" class="secondary">Send test command</button>
+			<button type="button" id="sync" class="secondary">Sync names now</button>
+			<button type="button" id="close">Close</button>
+		</div>
+
+		<script src="sessions.js"></script>
+		<script>
+			const root = document.getElementById("root");
+			const api = window.opener && window.opener.ogd;
+			if (!api) {
+				root.textContent = "Open this window from the plugin settings: grandMA3 connection → Manage sessions…";
+				document.querySelector(".popup-footer").hidden = true;
+			} else {
+				mountSessions(root, api);
+				document.getElementById("test").addEventListener("click", () => api.test());
+				document.getElementById("sync").addEventListener("click", () => api.syncNames());
+			}
+			document.getElementById("close").addEventListener("click", () => window.close());
+		</script>
+	</body>
+</html>

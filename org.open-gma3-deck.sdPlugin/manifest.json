@@ -1,0 +1,375 @@
+{
+	"$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+	"UUID": "org.open-gma3-deck",
+	"Name": "Open grandMA3 Deck",
+	"Version": "0.1.0.0",
+	"Author": "Fredrik Fedoriw",
+	"Description": "Turn your Stream Deck into a grandMA3 command wing and executor extension. Attribute encoders with layers and MAtricks on the Stream Deck + and + XL dials, a full command keypad, executors with live feedback, names and encoder banks read from your show, pools, pages, colour picker and window keys. Talks to grandMA3 onPC and consoles over plain OSC: no extra software, no licences. Free and open source (MIT). Not affiliated with MA Lighting.",
+	"Category": "Open grandMA3 Deck",
+	"CategoryIcon": "imgs/plugin/category-icon",
+	"Icon": "imgs/plugin/marketplace",
+	"CodePath": "bin/plugin.js",
+	"PropertyInspectorPath": "ui/pi.html",
+	"SDKVersion": 3,
+	"Software": {
+		"MinimumVersion": "7.1"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "13"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Nodejs": {
+		"Version": "24",
+		"Debug": "enabled"
+	},
+	"Actions": [
+		{
+			"UUID": "org.open-gma3-deck.ma-key",
+			"Name": "MA Key",
+			"Icon": "imgs/actions/ma-key/icon",
+			"Tooltip": "A grandMA3 hard key: numbers, Store, Update, At, Thru, Please, Clear, Highlight, Blind and more.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/ma-key/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.cmdline",
+			"Name": "Command Line",
+			"Icon": "imgs/actions/cmdline/icon",
+			"Tooltip": "Shows the command you are typing. Tap to send it (Please), hold to clear it.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/cmdline/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.command",
+			"Name": "Command / Macro",
+			"Icon": "imgs/actions/command/icon",
+			"Tooltip": "Sends any grandMA3 command on press and release, alternates two commands as a toggle, or types text into the command line.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/command/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.executor",
+			"Name": "Executor Key",
+			"Icon": "imgs/actions/executor/icon",
+			"Tooltip": "An executor button with its name and live level from grandMA3. While you type Store, Delete, Label and so on, it completes the command with this executor.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/executor/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.pool",
+			"Name": "Pool Object",
+			"Icon": "imgs/actions/pool/icon",
+			"Tooltip": "Calls a group, preset, sequence, macro, world and more, showing its name from grandMA3. While you type a command, it completes the command with this object.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/pool/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.bank",
+			"Name": "Encoder Bank",
+			"Icon": "imgs/actions/bank/icon",
+			"Tooltip": "Chooses what the attribute encoders control. Banks are built from your grandMA3 patch (Dimmer, Position, Gobo, Color, Beam, Focus…), and the feature group follows on grandMA3. Press again for the next encoder page.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/bank/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.encoder-page",
+			"Name": "Encoder Page",
+			"Icon": "imgs/actions/encoder-page/icon",
+			"Tooltip": "Scrolls the active encoder bank to its next or previous set of attributes.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/encoder-page/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.resolution",
+			"Name": "Encoder Resolution",
+			"Icon": "imgs/actions/resolution/icon",
+			"Tooltip": "Switches the encoders between coarse, fine and ultra resolution.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/resolution/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.layer",
+			"Name": "Encoder Layer",
+			"Icon": "imgs/actions/layer/icon",
+			"Tooltip": "Makes the attribute encoders change Fade, Delay, Speed, Phase, Width, Accel, Decel or Transition instead of the value.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/layer/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.matricks",
+			"Name": "MAtricks",
+			"Icon": "imgs/actions/matricks/icon",
+			"Tooltip": "Sets MAtricks of the current selection: blocks, groups, wings, width, shift, shuffle, fade and delay ranges. Includes reset.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/matricks/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.color",
+			"Name": "Color Picker",
+			"Icon": "imgs/actions/color/icon",
+			"Tooltip": "Sends the key's colour to the selected fixtures as RGB mix values. No preset needed.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/color/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.menu",
+			"Name": "Window / Menu",
+			"Icon": "imgs/actions/menu/icon",
+			"Tooltip": "Opens a grandMA3 menu, overlay or window: Command, MAtricks, Phaser Editor, Playbacks, Masters, Store options and more.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/menu/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.page",
+			"Name": "Executor Page",
+			"Icon": "imgs/actions/page/icon",
+			"Tooltip": "Page up, page down or jump to a page, for your executor keys and dials and on grandMA3.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/page/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.status",
+			"Name": "Connection Status",
+			"Icon": "imgs/actions/status/icon",
+			"Tooltip": "Shows OSC traffic to and from grandMA3. Press to send the test command, hold to sync names from grandMA3.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/status/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.session",
+			"Name": "Session",
+			"Icon": "imgs/actions/session/icon",
+			"Tooltip": "Switches every action to a saved connection, such as local onPC, the FOH console or a backup. Hold to sync names from grandMA3.",
+			"Controllers": [
+				"Keypad"
+			],
+			"UserTitleEnabled": false,
+			"States": [
+				{
+					"Image": "imgs/actions/session/key",
+					"ShowTitle": false
+				}
+			]
+		},
+		{
+			"UUID": "org.open-gma3-deck.attribute-dial",
+			"Name": "Attribute Encoder",
+			"Icon": "imgs/actions/attribute-dial/icon",
+			"Tooltip": "Adjusts an attribute of the selected fixtures: its value, or its fade, delay, speed, phase or width. Follows the active encoder bank, or stays on one attribute.",
+			"Controllers": [
+				"Encoder"
+			],
+			"SupportedInMultiActions": false,
+			"States": [
+				{
+					"Image": "imgs/actions/attribute-dial/key"
+				}
+			],
+			"Encoder": {
+				"layout": "layouts/dial.json",
+				"StackColor": "#f0a830",
+				"TriggerDescription": {
+					"Rotate": "Adjust (press and turn for fine)",
+					"Push": "Next encoder page",
+					"Touch": "Next bank",
+					"LongTouch": "Coarse / fine / ultra"
+				}
+			}
+		},
+		{
+			"UUID": "org.open-gma3-deck.executor-dial",
+			"Name": "Executor Fader",
+			"Icon": "imgs/actions/executor-dial/icon",
+			"Tooltip": "An executor fader on a dial, with its level shown on the touch strip.",
+			"Controllers": [
+				"Encoder"
+			],
+			"SupportedInMultiActions": false,
+			"States": [
+				{
+					"Image": "imgs/actions/executor-dial/key"
+				}
+			],
+			"Encoder": {
+				"layout": "layouts/dial.json",
+				"StackColor": "#f0a830",
+				"TriggerDescription": {
+					"Rotate": "Fader level",
+					"Push": "Executor button",
+					"Touch": "Toggle between 0 and last level",
+					"LongTouch": "Fader to 0"
+				}
+			}
+		},
+		{
+			"UUID": "org.open-gma3-deck.command-dial",
+			"Name": "Command Dial",
+			"Icon": "imgs/actions/command-dial/icon",
+			"Tooltip": "Steps through the selection, changes executor page, runs Go+ / Go-, sets a value from a template, or sends your own commands.",
+			"Controllers": [
+				"Encoder"
+			],
+			"SupportedInMultiActions": false,
+			"States": [
+				{
+					"Image": "imgs/actions/command-dial/key"
+				}
+			],
+			"Encoder": {
+				"layout": "layouts/dial.json",
+				"StackColor": "#f0a830",
+				"TriggerDescription": {
+					"Rotate": "Run the turn command",
+					"Push": "Run the push command",
+					"Touch": "Run the touch command",
+					"LongTouch": "Run the long-touch command"
+				}
+			}
+		},
+		{
+			"UUID": "org.open-gma3-deck.matricks-dial",
+			"Name": "MAtricks Dial",
+			"Icon": "imgs/actions/matricks-dial/icon",
+			"Tooltip": "Turn to set a MAtricks value of the selection, such as wings or blocks. Tap to switch axis.",
+			"Controllers": [
+				"Encoder"
+			],
+			"SupportedInMultiActions": false,
+			"States": [
+				{
+					"Image": "imgs/actions/matricks-dial/key"
+				}
+			],
+			"Encoder": {
+				"layout": "layouts/dial.json",
+				"StackColor": "#a855f7",
+				"TriggerDescription": {
+					"Rotate": "MAtricks value",
+					"Push": "Clear value",
+					"Touch": "Next axis (X / Y / Z)",
+					"LongTouch": "Reset all MAtricks"
+				}
+			}
+		}
+	],
+	"URL": "https://github.com/Hano009/open-gma3-deck",
+	"SupportURL": "https://github.com/Hano009/open-gma3-deck/issues"
+}

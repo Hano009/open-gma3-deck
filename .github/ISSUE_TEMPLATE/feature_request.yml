@@ -1,0 +1,11 @@
+name: Feature request
+description: Suggest a new action or improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like to do on the Stream Deck?
+      description: If it maps to a console key or workflow, describe how it works on the console.
+    validations:
+      required: true

@@ -1,0 +1,72 @@
+{
+	"$schema": "https://schemas.elgato.com/streamdeck/plugins/layout.json",
+	"id": "open-gma3-dial",
+	"items": [
+		{
+			"key": "head",
+			"type": "text",
+			"rect": [
+				12,
+				4,
+				176,
+				20
+			],
+			"font": {
+				"size": 15,
+				"weight": 600
+			},
+			"alignment": "left",
+			"color": "#aeb4bd",
+			"text-overflow": "ellipsis"
+		},
+		{
+			"key": "value",
+			"type": "text",
+			"rect": [
+				12,
+				26,
+				176,
+				32
+			],
+			"font": {
+				"size": 26,
+				"weight": 700
+			},
+			"alignment": "left",
+			"color": "#ffffff",
+			"text-overflow": "ellipsis"
+		},
+		{
+			"key": "sub",
+			"type": "text",
+			"rect": [
+				12,
+				60,
+				176,
+				18
+			],
+			"font": {
+				"size": 13,
+				"weight": 500
+			},
+			"alignment": "left",
+			"color": "#8d939c",
+			"text-overflow": "ellipsis"
+		},
+		{
+			"key": "bar",
+			"type": "bar",
+			"rect": [
+				12,
+				84,
+				176,
+				10
+			],
+			"value": 0,
+			"subtype": 0,
+			"border_w": 0,
+			"bar_bg_c": "#2b2f36",
+			"bar_fill_c": "#f0a830"
+		}
+	]
+}
