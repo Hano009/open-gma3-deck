@@ -4,6 +4,14 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.4] - 2026-09-28
+
+### Changed
+
+- grandMA3 2.5 compatibility: the name sync uses `IsRunningPlayback()` (new in 2.5) to read
+  executor running state, and falls back to `HasActivePlayback()` (deprecated in 2.5) on older
+  versions. Checked against the 2.5 / 2.5.1.0 release notes; no other changes affect the plugin.
+
 ## [0.1.3] - 2026-09-28
 
 ### Added

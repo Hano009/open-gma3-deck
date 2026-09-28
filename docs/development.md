@@ -82,8 +82,15 @@ Lua facts the sync relies on:
 - `ShowData().LivePatch.FixtureTypes → DMXModes → DMXChannels → (logical channel).attribute`. This is a **string**, the attribute name.
 - `AttributeDefinitions.Attributes[i].feature:Parent().name`. The feature group name.
 - `Cmd('SendOSC <line> "/address,s,value"')` needs *Send Command = Yes* on that line.
-- Executor state: `exec.object:HasActivePlayback()` and `exec:GetFader({})`. The object path is built from `.index` up the `:Parent()` chain (bounded loop: the root is its own parent).
+- Executor state: `exec.object:IsRunningPlayback()` (grandMA3 2.5+), falling back to `HasActivePlayback()` (deprecated in 2.5), and `exec:GetFader({})`. The object path is built from `.index` up the `:Parent()` chain (bounded loop: the root is its own parent).
 - Native OSC executor paths (`/Page1/Key104`, `/Page1/Fader104`, with or without a data pool) got no reaction on grandMA3 2.4.2.2, so the plugin uses commands.
+
+## Checking a new grandMA3 version
+
+1. Read the release notes' *Changes*, *Deprecated* and *Known Limitations* pages for OSC, Lua and keyword changes.
+2. On a **test show**, run `npm run command-test -- <IP> 8000 gma3` and check the command line history for red lines.
+3. Press *Sync names now* and check the log for "Synced … names", "Mapped … executors" and "Built … encoder banks".
+4. Start an executor on grandMA3 and check that its key lights up.
 
 ## Releasing
 

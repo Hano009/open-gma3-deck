@@ -47,8 +47,10 @@ export function buildSyncLua(line: number, pages: number[]): string {
 		// Object index path, e.g. "14.14.1.6.2": grandMA3 2.4 addresses executor feedback by the
 		// path of the object on the executor, not by page / executor number. Bounded loop on purpose.
 		`local function P(h) local t={} local x=h for _=1,12 do if not x then break end local ok,i=pcall(function() return x.index end) if not ok or i==nil then break end table.insert(t,1,tostring(i)) local p=x:Parent() if p==nil or p==x then break end x=p end return table.concat(t,'.') end`,
+		// Running state: IsRunningPlayback() since grandMA3 2.5, HasActivePlayback() before (deprecated in 2.5).
+		`local function R(o) local ok,r=pcall(function() return o:IsRunningPlayback() end) if not ok then ok,r=pcall(function() return o:HasActivePlayback() end) end if ok then return r and '1' or '0' end return '' end`,
 		// Executors: no=name~path~running~fader
-		`local function E(n,pg) local b='' for _,ex in ipairs(pg:Children()) do local o=ex.object local pa,a,f='','','' pcall(function() pa=P(o) end) pcall(function() a=o:HasActivePlayback() and '1' or '0' end) pcall(function() f=tostring(ex:GetFader({})) end) local e=tostring(ex.no)..'='..C(ex.name)..'~'..pa..'~'..a..'~'..f if #b+#e>600 then S('names','Exec'..n..'|'..b) b='' end b=(b=='' and e) or (b..'|'..e) end S('names','Exec'..n..'|'..b) end`,
+		`local function E(n,pg) local b='' for _,ex in ipairs(pg:Children()) do local o=ex.object local pa,a,f='','','' pcall(function() pa=P(o) end) pcall(function() a=R(o) end) pcall(function() f=tostring(ex:GetFader({})) end) local e=tostring(ex.no)..'='..C(ex.name)..'~'..pa..'~'..a..'~'..f if #b+#e>600 then S('names','Exec'..n..'|'..b) b='' end b=(b=='' and e) or (b..'|'..e) end S('names','Exec'..n..'|'..b) end`,
 		`local dp=DataPool() S('begin','1')`,
 		`for _,k in ipairs({${pools}}) do pcall(function() D(k,dp[k]) end) end`,
 		`pcall(function() for _,pp in ipairs(dp.PresetPools:Children()) do D('Preset'..tostring(pp.no),pp) end end)`,
