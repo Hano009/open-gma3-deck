@@ -4,6 +4,14 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.5] - 2026-09-28
+
+### Fixed
+
+- Encoder Bank keys for a bank the show has no attributes for (e.g. Shapers without blade
+  fixtures) showed the raw id ("shapers") and selected a non-existent bank. They now show the
+  name with "not in patch", stay dimmed, and do nothing when pressed.
+
 ## [0.1.4] - 2026-09-28
 
 ### Changed

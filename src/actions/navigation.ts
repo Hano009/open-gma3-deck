@@ -21,6 +21,11 @@ export class BankKey extends DeckAction<BankSettings> {
 
 	override onKeyDown(ev: KeyDownEvent<BankSettings>): void {
 		const id = text(ev.payload.settings.bank, "position");
+		// A bank the show has no attributes for (e.g. Shapers without blade fixtures): do nothing.
+		if (!state.banks.some((b) => b.id === id)) {
+			if (ev.action.isKey()) void ev.action.showAlert();
+			return;
+		}
 		if (state.bankId === id) state.stepEncoderPage(1, state.dialsPerPage);
 		else {
 			state.selectBank(id);
@@ -35,10 +40,11 @@ export class BankKey extends DeckAction<BankSettings> {
 		const active = state.bankId === id;
 		const pages = bank ? Math.max(1, Math.ceil(bank.attrs.length / state.dialsPerPage)) : 1;
 		this.drawKey(inst, {
-			label: text(inst.settings.label, bank?.name ?? id),
+			// Without a matching bank, show the id as a name ("shapers" -> "Shapers"), not raw.
+			label: text(inst.settings.label, bank?.name ?? id.charAt(0).toUpperCase() + id.slice(1)),
 			color: bank?.color ?? "#9aa4b1",
-			active,
-			bottom: active && pages > 1 ? `${state.encoderPage + 1}/${pages}` : undefined,
+			active: active && bank !== undefined,
+			bottom: !bank ? "not in patch" : active && pages > 1 ? `${state.encoderPage + 1}/${pages}` : undefined,
 			dim: !bank,
 		});
 	}

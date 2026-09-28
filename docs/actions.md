@@ -60,6 +60,7 @@ Chooses what the Attribute Encoders control. With *Banks from = The grandMA3 pat
 
 - Pressing a bank also selects that feature group on grandMA3 (setting: *Feature group*).
 - Pressing the active bank again moves to its next encoder page (e.g. *Color 2/2*).
+- A bank key whose feature group has no attributes in your patch (e.g. Shapers without blade fixtures) shows *not in patch*, stays dimmed and does nothing.
 
 ### Encoder Page
 
