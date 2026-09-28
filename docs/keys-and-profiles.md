@@ -59,9 +59,33 @@ The [release](https://github.com/Hano009/open-gma3-deck/releases/latest) include
 | Executors (XL)<br>`open-gma3-deck-executors-xl` | Stream Deck XL | Page −/+, executors 101–114 and 201–215 following the page, status |
 | Color Picker (XL)<br>`open-gma3-deck-color-picker-xl` | Stream Deck XL | One row per group (groups 1–4), 8 colours each: white, red, orange, yellow, green, cyan, blue, magenta. One press colours that group. |
 | Color Picker (+ XL)<br>`open-gma3-deck-color-picker-plus-xl` | Stream Deck + XL | The same, with a Group key at the start of each row, and 6 dials for Red, Green, Blue, White, Hue and Saturation of the selection |
+| **Pre-programming (touch)**<br>`open-gma3-deck-preprogramming-touch-8x8` | Virtual Stream Deck, 8 × 8 | A pre-programming helper for touch screens. Everything on one page (keypad, command keys, banks, executors 201–208, modes), with folders for the rest. See below. |
 | Encoders (+)<br>`open-gma3-deck-encoders-plus` | Stream Deck + | 6 bank keys, layer, resolution, 4 attribute encoders |
 | Programmer (+ XL)<br>`open-gma3-deck-programmer-plus-xl` | Stream Deck + XL | The programmer layout on 9 × 4 keys, with layer and resolution, and 6 attribute encoders |
 
 After importing, change any key in the Stream Deck app as usual. For the colour pickers, set each row to your own groups: select the keys of a row and change *Group* (the Stream Deck app lets you edit several keys of the same action one by one). To rebuild the profiles after changing the layouts in `tools/make-profiles.mjs`, run `npm run profiles`. The image at the top of this page comes from the real key renderer; run `npm run preview` to update it.
 
-> The Stream Deck + XL profile uses the device model code `20GBX9901`. If the Stream Deck app offers it for the wrong device, please [open an issue](https://github.com/Hano009/open-gma3-deck/issues).
+### Pre-programming helper for touch screens
+
+The **Pre-programming (touch)** profile is made for the Stream Deck app's **Virtual Stream Deck** on a touch screen: a laptop with touch, a tablet next to the onPC screen, or a second monitor. Set the virtual Stream Deck's size to **8 × 8** before importing.
+
+**Main page**
+
+| Row | Keys |
+|---|---|
+| 1 | Status · Session · Command Line · Oops · Highlight · Blind · Page − · Page + |
+| 2 | Banks: Dimmer · Position · Gobo · Color · Beam · Focus · Shapers · Control. They select the feature group on grandMA3. |
+| 3 | Fixture · Group · Preset · Sequence · Cue · Executor · Store · Update |
+| 4 | 7 · 8 · 9 · + · Thru · Full · Delete · Copy |
+| 5 | 4 · 5 · 6 · − · At · Select All · Move · Label |
+| 6 | 1 · 2 · 3 · 0 · . · Please · Edit · Clear |
+| 7 | Executors 201–208 (following the page) |
+| 8 | Folders: **Colors** · **MAtricks** · **Pools** · **Executors** · **Windows** · then Freeze · Solo · Preview |
+
+**Folders** (Back is always the top-left key)
+
+- **Colors:** the top row colours the current selection; below it, one row per group (1–7) with white, red, orange, yellow, green, cyan, blue and magenta.
+- **MAtricks:** Reset and quick presets (Wings 2 / 3, Blocks 2, Groups 2 / 3), then − / + keys for Blocks, Groups, Wings, Width, Shift, Shuffle, Fade and Delay on the X, Y and Z axes, plus selection stepping.
+- **Pools:** groups 1–15, presets 1.1–4.8 (dimmer, position, gobo, color), sequences 1–8 and macros 1–8, all named from your show.
+- **Executors:** page keys (−, +, pages 1–4), then executors 101–115, 201–215 and 301–315, following the page.
+- **Windows:** all grandMA3 overlays and windows of the Window / Menu key.

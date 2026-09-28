@@ -48,7 +48,7 @@ grandMA3 onPC on a laptop is great until you need encoders and hard keys. Open g
 **Built for shows**
 - Sessions: saved connections for each console or onPC, switched from a popup or a key
 - Names and encoder banks read from the show with a single `Lua` command line; nothing is imported into your show
-- Ready-made profiles for the Stream Deck XL, + and + XL, including a group-based colour picker
+- Ready-made profiles for the Stream Deck XL, + and + XL, a group-based colour picker, and an 8 × 8 pre-programming helper for touch screens (Virtual Stream Deck) with folders
 - 16-colour palette, backlit / outline styles, automatic text contrast
 - No runtime dependencies. The settings UI works offline.
 

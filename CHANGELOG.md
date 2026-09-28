@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.3] - 2026-09-28
+
+### Added
+
+- Pre-programming helper profile for touch screens (Virtual Stream Deck, 8 × 8): keypad, command
+  keys, banks and executors on one page, with Colors, MAtricks, Pools, Executors and Windows
+  folders. Folder and back keys use images drawn by the plugin's key renderer.
+- The profile generator supports folders and key images, and checks that every MA Key preset
+  used in a layout exists.
+
+### Changed
+
+- The Stream Deck + XL model code (`20GBX9901`) is confirmed from a real export; the warning is
+  removed from the docs.
+
 ## [0.1.2] - 2026-09-28
 
 ### Added
