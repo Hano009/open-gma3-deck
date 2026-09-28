@@ -1,6 +1,6 @@
 {
 	"name": "open-gma3-deck",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "Free, open-source Stream Deck plugin that turns a Stream Deck XL, + or + XL into a grandMA3 command wing, encoder wing and executor extension over OSC.",
 	"keywords": [
 		"grandma3",
