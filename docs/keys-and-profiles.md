@@ -37,12 +37,12 @@ Colours are saved by name ("red"), so a key's colour stays consistent if the pal
 
 The [release](https://github.com/Hano009/open-gma3-deck/releases/latest) includes profiles you can double-click to import into the Stream Deck app. They are also in the `profiles/` folder of the repository.
 
-| Profile | Device | Layout |
+| Profile (file) | Device | Layout |
 |---|---|---|
-| Programmer (XL) | Stream Deck XL | Status, 6 encoder banks, command line / fixture, group, preset, highlight / keypad / Thru, +, At, Full / Store, Update, Delete, Oops, Clear, Please |
-| Executors (XL) | Stream Deck XL | Page −/+, executors 101–114 and 201–215 following the page, status |
-| Encoders (+) | Stream Deck + | 6 bank keys, layer, resolution, 4 attribute encoders |
-| Programmer (+ XL) | Stream Deck + XL | The programmer layout on 9 × 4 keys, with layer and resolution, and 6 attribute encoders |
+| Programmer (XL)<br>`open-gma3-deck-programmer-xl` | Stream Deck XL | Status, 6 encoder banks, command line / fixture, group, preset, highlight / keypad / Thru, +, At, Full / Store, Update, Delete, Oops, Clear, Please |
+| Executors (XL)<br>`open-gma3-deck-executors-xl` | Stream Deck XL | Page −/+, executors 101–114 and 201–215 following the page, status |
+| Encoders (+)<br>`open-gma3-deck-encoders-plus` | Stream Deck + | 6 bank keys, layer, resolution, 4 attribute encoders |
+| Programmer (+ XL)<br>`open-gma3-deck-programmer-plus-xl` | Stream Deck + XL | The programmer layout on 9 × 4 keys, with layer and resolution, and 6 attribute encoders |
 
 After importing, change any key in the Stream Deck app as usual. To rebuild the profiles after changing the layouts in `tools/make-profiles.mjs`, run `npm run profiles`.
 

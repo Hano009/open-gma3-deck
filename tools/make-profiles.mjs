@@ -58,7 +58,7 @@ function dials(list) {
 
 const PROFILES = [
 	{
-		file: "Open grandMA3 Deck - Programmer (XL)",
+		file: "open-gma3-deck-programmer-xl",
 		name: "grandMA3 Programmer",
 		model: MODELS.xl,
 		keys: grid([
@@ -69,7 +69,7 @@ const PROFILES = [
 		]),
 	},
 	{
-		file: "Open grandMA3 Deck - Executors (XL)",
+		file: "open-gma3-deck-executors-xl",
 		name: "grandMA3 Executors",
 		model: MODELS.xl,
 		keys: grid([
@@ -80,7 +80,7 @@ const PROFILES = [
 		]),
 	},
 	{
-		file: "Open grandMA3 Deck - Encoders (+)",
+		file: "open-gma3-deck-encoders-plus",
 		name: "grandMA3 Encoders",
 		model: MODELS.plus,
 		keys: grid([
@@ -90,7 +90,7 @@ const PROFILES = [
 		dials: dials([attrDial(), attrDial(), attrDial(), attrDial()]),
 	},
 	{
-		file: "Open grandMA3 Deck - Programmer (+ XL)",
+		file: "open-gma3-deck-programmer-plus-xl",
 		name: "grandMA3 Programmer",
 		model: MODELS.plusXl,
 		keys: grid([
