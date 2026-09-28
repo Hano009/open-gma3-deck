@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/images/keys.png" width="720" alt="Keys in backlit and outline style">
+  <img src="docs/images/keys.png" width="760" alt="The same keys in backlit and outline style, idle and active">
 </p>
 
 ## Why

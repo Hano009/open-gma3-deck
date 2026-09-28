@@ -64,20 +64,30 @@ export function renderKey(v: KeyVisual): string {
 		stroke = v.active ? tint(base, 0.65) : shade(base, Math.min(1, idle + 0.25));
 		strokeWidth = v.active ? 5 : 2;
 	} else {
-		fill = v.active ? base : "#111317";
-		stroke = v.active ? tint(base, 0.65) : base;
-		strokeWidth = v.active ? 5 : 7;
+		// Active outline keys stay outline keys: a heavier frame with a bright inner ring and the
+		// label in the key colour, over a barely tinted dark face. Never a fill (that is what the
+		// backlit style is for, and it would look like an idle backlit key).
+		fill = v.active ? shade(base, 0.14) : "#111317";
+		stroke = base;
+		strokeWidth = v.active ? 11 : 6;
 	}
-	const fg = textOn(fill);
-	const sub = fg === "#ffffff" ? "#ffffff" : "#101114";
+	const outlineActive = style === "outline" && v.active === true;
+	// Active outline keys print their label in the key colour; everything else picks black / white.
+	const fg = outlineActive ? tint(base, 0.35) : textOn(fill);
+	const sub = outlineActive ? "#ffffff" : fg === "#ffffff" ? "#ffffff" : "#101114";
 
 	parts.push(`<defs><linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="${v.active ? 0.28 : 0.12}"/><stop offset="0.55" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>`);
 	parts.push(`<rect width="${SIZE}" height="${SIZE}" fill="#000"/>`);
 	parts.push(
 		`<rect x="${INSET + strokeWidth / 2}" y="${INSET + strokeWidth / 2}" width="${size - strokeWidth}" height="${size - strokeWidth}" rx="${RADIUS}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"/>`,
 	);
-	if (style === "backlit" || v.active) {
+	if (style === "backlit") {
 		parts.push(`<rect x="${INSET + 3}" y="${INSET + 3}" width="${size - 6}" height="${(size - 6) * 0.55}" rx="${RADIUS - 3}" fill="url(#gloss)"/>`);
+	}
+	if (outlineActive) {
+		// Bright inner ring: reads as "lit" without filling the key.
+		const r = INSET + strokeWidth + 2;
+		parts.push(`<rect x="${r}" y="${r}" width="${SIZE - 2 * r}" height="${SIZE - 2 * r}" rx="${RADIUS - 8}" fill="none" stroke="${tint(base, 0.6)}" stroke-width="2.5"/>`);
 	}
 
 	const hasBar = typeof v.bar === "number";
@@ -86,7 +96,7 @@ export function renderKey(v: KeyVisual): string {
 
 	if (v.top) {
 		// Outline style: the category text sits in the frame colour so the key reads as a group.
-		const topColor = style === "outline" && !v.active ? base : sub;
+		const topColor = style === "outline" ? (v.active ? tint(base, 0.45) : base) : sub;
 		parts.push(textLine(v.top.toUpperCase(), SIZE / 2, INSET + 28, 17, topColor, "middle", 800, style === "outline" && !v.active ? 1 : 0.78));
 		top = INSET + 36;
 	}
@@ -95,7 +105,7 @@ export function renderKey(v: KeyVisual): string {
 		const w = size - 34;
 		const y = SIZE - INSET - 20;
 		const track = fg === "#ffffff" ? "rgba(0,0,0,0.45)" : "rgba(0,0,0,0.25)";
-		const barFill = style === "outline" && !v.active ? base : sub;
+		const barFill = style === "outline" ? (v.active ? tint(base, 0.3) : base) : sub;
 		parts.push(`<rect x="${INSET + 17}" y="${y}" width="${w}" height="9" rx="4.5" fill="${track}"/>`);
 		if (pct > 0) parts.push(`<rect x="${INSET + 17}" y="${y}" width="${Math.max(9, (w * pct) / 100)}" height="9" rx="4.5" fill="${barFill}"/>`);
 		bottom = y - 6;

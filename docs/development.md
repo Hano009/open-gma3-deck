@@ -19,6 +19,7 @@ Requirements: Node.js 22.18+ (24 recommended) and the Stream Deck app 7.1+.
 | `npm run osc-monitor` | Fake grandMA3: prints everything the plugin sends and echoes executor feedback |
 | `npm run validate` | Elgato manifest validation |
 | `npm run icons` | Regenerates all icons from `tools/make-icons.mjs` |
+| `npm run preview` | Renders `docs/images/keys.png` with the real key renderer (needs Chrome or Edge) |
 | `npm run profiles` | Regenerates the ready-made profiles from `tools/make-profiles.mjs` |
 | `npm run pack` | Builds `dist/org.open-gma3-deck.streamDeckPlugin` |
 

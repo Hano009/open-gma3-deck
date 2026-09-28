@@ -39,7 +39,8 @@
 		"link": "streamdeck link org.open-gma3-deck.sdPlugin",
 		"osc-monitor": "node tools/osc-monitor.mjs",
 		"profiles": "node tools/make-profiles.mjs",
-		"command-test": "node tools/command-test.mjs"
+		"command-test": "node tools/command-test.mjs",
+		"preview": "node tools/make-preview.mjs"
 	},
 	"devDependencies": {
 		"@elgato/cli": "^1.10.1",
