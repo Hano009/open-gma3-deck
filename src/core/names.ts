@@ -44,10 +44,15 @@ export function buildSyncLua(line: number, pages: number[]): string {
 		// Commas split SendOSC arguments; | and = are our separators; quotes end the string.
 		`local function C(n) return (tostring(n or ''):gsub('[,|=%c'..q..']',' ')) end`,
 		`local function D(k,p) if not p then return end local b='' for _,o in ipairs(p:Children()) do local e=tostring(o.no)..'='..C(o.name) if #b+#e>700 then S('names',k..'|'..b) b='' end b=(b=='' and e) or (b..'|'..e) end S('names',k..'|'..b) end`,
+		// Object index path, e.g. "14.14.1.6.2": grandMA3 2.4 addresses executor feedback by the
+		// path of the object on the executor, not by page / executor number. Bounded loop on purpose.
+		`local function P(h) local t={} local x=h for _=1,12 do if not x then break end local ok,i=pcall(function() return x.index end) if not ok or i==nil then break end table.insert(t,1,tostring(i)) local p=x:Parent() if p==nil or p==x then break end x=p end return table.concat(t,'.') end`,
+		// Executors: no=name~path~running~fader
+		`local function E(n,pg) local b='' for _,ex in ipairs(pg:Children()) do local o=ex.object local pa,a,f='','','' pcall(function() pa=P(o) end) pcall(function() a=o:HasActivePlayback() and '1' or '0' end) pcall(function() f=tostring(ex:GetFader({})) end) local e=tostring(ex.no)..'='..C(ex.name)..'~'..pa..'~'..a..'~'..f if #b+#e>600 then S('names','Exec'..n..'|'..b) b='' end b=(b=='' and e) or (b..'|'..e) end S('names','Exec'..n..'|'..b) end`,
 		`local dp=DataPool() S('begin','1')`,
 		`for _,k in ipairs({${pools}}) do pcall(function() D(k,dp[k]) end) end`,
 		`pcall(function() for _,pp in ipairs(dp.PresetPools:Children()) do D('Preset'..tostring(pp.no),pp) end end)`,
-		`for _,n in ipairs({${pageList}}) do pcall(function() for _,pg in ipairs(dp.Pages:Children()) do if pg.no==n then D('Exec'..n,pg) end end end) end`,
+		`for _,n in ipairs({${pageList}}) do pcall(function() for _,pg in ipairs(dp.Pages:Children()) do if pg.no==n then E(n,pg) end end end) end`,
 		`S('done','1')`,
 	].join(" ");
 }
@@ -77,10 +82,64 @@ export function parseNamesChunk(payload: string): Array<[key: string, name: stri
 		const eq = part.indexOf("=");
 		if (eq <= 0) continue;
 		const no = part.slice(0, eq).trim();
-		const name = part.slice(eq + 1).trim();
+		// Executor entries carry "~path~running~fader" after the name.
+		const name = part.slice(eq + 1).split("~")[0].trim();
 		if (no && name && name !== "nil") out.push([prefix + no, name]);
 	}
 	return out;
+}
+
+export type ExecInfo = {
+	page: number;
+	exec: number;
+	/** Object index path used by grandMA3's executor feedback, e.g. "14.14.1.6.2". */
+	path: string;
+	running?: boolean;
+	fader?: number;
+};
+
+/** Parses the executor entries of an "Exec<page>|…" chunk (see buildSyncLua). */
+export function parseExecChunk(payload: string): ExecInfo[] {
+	const parts = payload.split("|");
+	const m = /^Exec(\d+)$/.exec(parts.shift() ?? "");
+	if (!m) return [];
+	const page = parseInt(m[1], 10);
+	const out: ExecInfo[] = [];
+	for (const part of parts) {
+		const eq = part.indexOf("=");
+		if (eq <= 0) continue;
+		const exec = parseInt(part.slice(0, eq), 10);
+		const [, path = "", running = "", fader = ""] = part.slice(eq + 1).split("~");
+		if (!Number.isFinite(exec)) continue;
+		const f = parseFloat(fader);
+		out.push({
+			page,
+			exec,
+			path: path.replace(/^\.+/, ""),
+			running: running === "1" ? true : running === "0" ? false : undefined,
+			fader: Number.isFinite(f) ? f : undefined,
+		});
+	}
+	return out;
+}
+
+/**
+ * Executor feedback as grandMA3 2.4 sends it with "Send" enabled:
+ *   /<prefix>/14.14.1.6.2 ,sis "Go+" 1 "OW Viper Odd 1 [100%/Open White]"
+ *   /<prefix>/14.14.1.6.2 ,sii "FaderMaster" 1 50
+ *   /<prefix>/14.14.1.6.2 ,si  "Off" 1
+ */
+export function parseObjectFeedback(address: string, args: unknown[]): { path: string; running?: boolean; fader?: number } | undefined {
+	const m = /\/\.?(\d+(?:\.\d+)+)$/.exec(address);
+	if (!m || typeof args[0] !== "string") return undefined;
+	const action = args[0];
+	if (action === "Off") return { path: m[1], running: false };
+	if (action === "FaderMaster") {
+		const value = args.slice(1).filter((a): a is number => typeof a === "number").pop();
+		return value === undefined ? undefined : { path: m[1], fader: value };
+	}
+	if (/^(Go\+|Go-|On|Top|Goto|Load|Flash|Temp|Swap|Toggle|Pause)/i.test(action)) return { path: m[1], running: true };
+	return { path: m[1] };
 }
 
 /**

@@ -223,7 +223,10 @@ export class ColorKey extends DeckAction<ColorSettings> {
 		const n = parseInt(hex.slice(1), 16);
 		const pct = (c: number) => formatNumber(Math.round((c / 255) * 1000) / 10);
 		const group = text(s.group).trim();
-		if (group) ma3.cmd(`Group ${group}`);
+		if (group) {
+			ma3.cmd(`Group ${group}`);
+			state.setCalled("Group", group);
+		}
 		ma3.cmds([
 			`Attribute "ColorRGB_R" At ${pct((n >> 16) & 255)}`,
 			`Attribute "ColorRGB_G" At ${pct((n >> 8) & 255)}`,

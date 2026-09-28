@@ -59,11 +59,11 @@ Everything goes over OSC / UDP. No grandMA3 plugin or Lua file is installed.
 | Purpose | OSC message |
 |---|---|
 | Any command | `/<prefix>/cmd ,s "<command>"` |
-| Executor button | `/<prefix>/Page<p>/Key<e> ,i 1` (press) / `0` (release) |
-| Executor fader | `/<prefix>/Page<p>/Fader<e> ,i <0-100>` |
+| Executor button | Commands: `Go+ Page 1.104`, `Flash On/Off Page 1.104`, `Swap On/Off …` |
+| Executor fader | Command: `FaderMaster Page 1.104 At 50` |
 | Name / bank sync request | `/<prefix>/cmd ,s "Lua \"…\""` (see `core/names.ts`) |
 | Name / bank sync reply | `/<prefix>/deck/{begin,names,done,attrbegin,attrs,attrdone} ,s "…"`, sent by grandMA3 with `SendOSC <feedback line>` |
-| Executor feedback | `/<prefix>/Page<p>/{Fader,Key}<e> …`, sent by grandMA3 with *Send* enabled |
+| Executor feedback | `/<prefix>/14.14.1.6.2 ,sis "Go+" 1 "…"` / `,sii "FaderMaster" 1 50` / `,si "Off" 1`: addressed by the **object path** of what runs on the executor. The name sync reports each executor's object path, running state and fader level, so the plugin can map the feedback. |
 
 Command syntax used by the plugin, verified against grandMA3 2.4.2.2:
 
@@ -82,6 +82,8 @@ Lua facts the sync relies on:
 - `ShowData().LivePatch.FixtureTypes → DMXModes → DMXChannels → (logical channel).attribute`. This is a **string**, the attribute name.
 - `AttributeDefinitions.Attributes[i].feature:Parent().name`. The feature group name.
 - `Cmd('SendOSC <line> "/address,s,value"')` needs *Send Command = Yes* on that line.
+- Executor state: `exec.object:HasActivePlayback()` and `exec:GetFader({})`. The object path is built from `.index` up the `:Parent()` chain (bounded loop: the root is its own parent).
+- Native OSC executor paths (`/Page1/Key104`, `/Page1/Fader104`, with or without a data pool) got no reaction on grandMA3 2.4.2.2, so the plugin uses commands.
 
 ## Releasing
 

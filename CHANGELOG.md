@@ -13,9 +13,19 @@ All notable changes to this project are documented here. The format follows
 - Colour picker profiles for Stream Deck XL (4 groups × 8 colours) and + XL (with group keys and
   RGB / white / hue / saturation dials).
 - `npm run preview` renders the README key image with the real key renderer.
+- Every key lights up while pressed. Group, World, Filter and View keys stay lit for the object
+  last called from the deck, and Preset keys for the preset last applied (per pool).
+- Executor keys and dials follow grandMA3: running state and fader level, read at sync and kept
+  up to date from grandMA3's feedback.
 
 ### Fixed
 
+- Executor feedback never worked: grandMA3 2.4 addresses it by object path
+  (`/gma3/14.14.1.6.2 "Go+"…`), not `/Page1/Fader104`. The name sync now maps object paths to
+  executors.
+- Executor keys and faders default to commands (`Go+ Page 1.104`, `FaderMaster … At`). The native
+  OSC key / fader paths got no reaction on grandMA3 2.4.2.2; they remain as an experimental option.
+- The README image showed keys lit that never light up; it now shows only real states.
 - Outline style: active keys keep their outline look (heavier frame, inner ring, coloured label)
   instead of being filled like backlit keys.
 

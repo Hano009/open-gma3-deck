@@ -35,6 +35,12 @@ const POOLS: Record<string, { verb: string; color: string }> = {
 	Fixture: { verb: "", color: "lime" },
 };
 
+/** Pools whose last called object is remembered ("Preset 4" per preset pool). */
+function calledKind(type: string, number: string): string | undefined {
+	if (type === "Preset") return `Preset ${number.trim().split(".")[0]}`;
+	return ["Group", "World", "Filter", "View"].includes(type) ? type : undefined;
+}
+
 /**
  * Pool object key: groups, presets, macros, sequences, views, ... While a command is typed
  * (e.g. "Store"), pressing it stores into / targets that object instead.
@@ -42,7 +48,7 @@ const POOLS: Record<string, { verb: string; color: string }> = {
 @action({ UUID: "org.open-gma3-deck.pool" })
 export class Pool extends DeckAction<Settings> {
 	constructor() {
-		super(["names"]);
+		super(["names", "called"]);
 	}
 
 	private object(s: Settings): string {
@@ -55,6 +61,9 @@ export class Pool extends DeckAction<Settings> {
 		if (completeCommandLine(obj)) return;
 		const verb = s.verb === undefined || s.verb === "default" ? (POOLS[text(s.type, "Group")]?.verb ?? "") : s.verb.trim();
 		ma3.cmd(verb ? `${verb} ${obj}` : obj);
+		// Selecting / applying objects stay lit, like a selected pool object on the console.
+		const kind = calledKind(text(s.type, "Group"), text(s.number, "1"));
+		if (kind && (verb === "" || verb === "Call" || verb === "Select")) state.setCalled(kind, text(s.number, "1").trim());
 	}
 
 	protected render(inst: Instance<Settings>): void {
@@ -66,6 +75,7 @@ export class Pool extends DeckAction<Settings> {
 		this.drawKey(inst, {
 			top: type,
 			label: name ?? number,
+			active: calledKind(type, number) !== undefined && state.called.get(calledKind(type, number)!) === number,
 			bottom: name ? number : undefined,
 			color: text(s.color, POOLS[type]?.color ?? "grey"),
 		});

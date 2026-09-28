@@ -31,31 +31,34 @@ execFileSync(
 fs.writeFileSync(path.join(tmp, "package.json"), '{ "type": "commonjs" }');
 const { renderKey } = createRequire(import.meta.url)(path.join(tmp, "render.js"));
 
+// Keys that really light up in the plugin, and when (shown under the "lit" row).
 const KEYS = [
-	{ top: "Group", label: "Vipers", bottom: "1", color: "green" },
-	{ top: "Preset", label: "Open White", bottom: "4.1", color: "cyan" },
-	{ top: "P1", label: "OW Viper Odd", bottom: "1.104", color: "amber", bar: 75 },
-	{ label: "Store", color: "red" },
-	{ label: "Update", color: "orange" },
-	{ label: "Delete", color: "pink" },
-	{ label: "Highlight", color: "yellow" },
-	{ label: "Please", color: "green" },
-	{ top: "Layer", label: "Phase", color: "magenta" },
-	{ top: "MAtricks", label: "X Wings 2", color: "purple" },
+	[{ top: "Group", label: "Vipers", bottom: "1", color: "green" }, "selected"],
+	[{ top: "Preset", label: "Open White", bottom: "4.1", color: "cyan" }, "applied"],
+	[{ top: "P1", label: "OW Viper Odd", bottom: "1.104", color: "amber", bar: 75 }, "running"],
+	[{ label: "Position", color: "#4aa3ff" }, "bank selected"],
+	[{ top: "Layer", label: "Phase", color: "magenta" }, "layer on"],
+	[{ top: "MAtricks", label: "X Wings 2", color: "purple" }, "value set"],
+	[{ label: "Highlight", color: "yellow" }, "mode on"],
+	[{ label: "Please", color: "green" }, "cmd waiting"],
+	[{ label: "Store", color: "red" }, "while pressed"],
 ];
 
 const row = (title, style, active) =>
 	`<div class="label">${title}</div><div class="row">${KEYS.map(
-		(k) => `<img width="88" height="88" src="${renderKey({ ...k, style, active, bar: k.bar === undefined ? undefined : active ? k.bar : 0 })}">`,
+		([k]) => `<img width="88" height="88" src="${renderKey({ ...k, style, active, bar: k.bar === undefined ? undefined : active ? k.bar : 0 })}">`,
 	).join("")}</div>`;
+const captions = `<div class="row captions">${KEYS.map(([, c]) => `<div>${c}</div>`).join("")}</div>`;
 
 const width = 40 + KEYS.length * 96;
 const html = `<!doctype html><html><body style="margin:0;padding:18px 20px;background:#0b0c0e;font:600 14px Segoe UI,Helvetica Neue,Arial,sans-serif;color:#9aa0a8">
-<style>.row{display:grid;grid-template-columns:repeat(${KEYS.length},88px);gap:8px;margin:6px 0 16px}.label{letter-spacing:.04em}</style>
+<style>.row{display:grid;grid-template-columns:repeat(${KEYS.length},88px);gap:8px;margin:6px 0 16px}.label{letter-spacing:.04em}.captions{margin-top:-10px;font-size:12px;color:#6f757d;text-align:center}</style>
 ${row("BACKLIT · idle", "backlit", false)}
-${row("BACKLIT · active", "backlit", true)}
+${row("BACKLIT · lit", "backlit", true)}
+${captions}
 ${row("OUTLINE · idle", "outline", false)}
-${row("OUTLINE · active", "outline", true)}
+${row("OUTLINE · lit", "outline", true)}
+${captions}
 </body></html>`;
 const htmlFile = path.join(tmp, "preview.html");
 fs.writeFileSync(htmlFile, html);
@@ -75,7 +78,7 @@ if (!browser) {
 	process.exit(1);
 }
 const out = path.join(root, "docs", "images", "keys.png");
-execFileSync(browser, ["--headless", "--disable-gpu", "--hide-scrollbars", `--window-size=${width},${4 * 125 + 40}`, `--screenshot=${out}`, "file:///" + htmlFile.replace(/\\/g, "/")], {
+execFileSync(browser, ["--headless", "--disable-gpu", "--hide-scrollbars", `--window-size=${width},${4 * 125 + 90}`, `--screenshot=${out}`, "file:///" + htmlFile.replace(/\\/g, "/")], {
 	stdio: "ignore",
 });
 fs.rmSync(tmp, { recursive: true, force: true });

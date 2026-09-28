@@ -44,9 +44,9 @@ Sends any grandMA3 commands. Put one per line, or separate them with `;;`.
 An executor button with its **name from the show** and live level and state (the bar at the bottom).
 
 - **Page:** empty = follow the Executor Page keys; a number = always that page.
-- **Function:**
-  - *Button as assigned in grandMA3* (default) presses the button through grandMA3's OSC key, so it does whatever the button does on the console.
-  - Or pick Go+, Go-, Pause, Toggle, On, Off, Top, Flash, Temp, Swap, Select, or your own commands (`{p}` = page, `{e}` = executor).
+- **Function:** Go+ (default), Go-, Pause, Toggle, On, Off, Top, Flash, Temp, Swap, Select, or your own commands (`{p}` = page, `{e}` = executor). Everything is sent as a grandMA3 command.
+  - *Native OSC key* is available as an experimental option. It sends grandMA3's documented `/Page1/Key104` messages, but on grandMA3 2.4.2.2 these got no reaction in testing.
+- The key **lights up while the executor runs**, and the bar shows its fader level. This needs the feedback line (line 2).
 
 ### Pool Object
 

@@ -33,12 +33,30 @@ export type Instance<S extends JsonObject> = {
  * Base for every action: tracks visible instances, re-renders them when shared state changes and
  * answers the property inspector's requests.
  */
+/** Keys currently held down; every key lights up while pressed, as instant confirmation. */
+const pressed = new Set<string>();
+const registry = new Set<DeckAction<JsonObject>>();
+
+function redrawPressed(id: string): void {
+	for (const a of registry) a.redraw(id);
+}
+
+streamDeck.actions.onKeyDown((ev) => {
+	pressed.add(ev.action.id);
+	redrawPressed(ev.action.id);
+});
+streamDeck.actions.onKeyUp((ev) => {
+	pressed.delete(ev.action.id);
+	redrawPressed(ev.action.id);
+});
+
 export abstract class DeckAction<S extends JsonObject> extends SingletonAction<S> {
 	protected readonly instances = new Map<string, Instance<S>>();
 	private readonly lastVisual = new Map<string, string>();
 
 	constructor(topics: Topic[]) {
 		super();
+		registry.add(this as unknown as DeckAction<JsonObject>);
 		state.on("change", (topic: Topic) => {
 			// Every key redraws on global changes (key style, brightness, banks).
 			if (topic === "globals" || topics.includes(topic)) this.renderAll();
@@ -51,7 +69,7 @@ export abstract class DeckAction<S extends JsonObject> extends SingletonAction<S
 		for (const inst of this.instances.values()) this.safeRender(inst);
 	}
 
-	private safeRender(inst: Instance<S>): void {
+	protected safeRender(inst: Instance<S>): void {
 		try {
 			this.render(inst);
 		} catch (err) {
@@ -86,12 +104,18 @@ export abstract class DeckAction<S extends JsonObject> extends SingletonAction<S
 	}
 
 	/** Sets a key image, skipping identical updates to keep USB traffic low. */
+	/** Re-renders one instance if it belongs to this action (used for the press highlight). */
+	redraw(id: string): void {
+		const inst = this.instances.get(id);
+		if (inst) this.safeRender(inst);
+	}
+
 	protected drawKey(inst: Instance<S>, visual: KeyVisual): void {
 		if (!inst.action.isKey()) return;
 		// Per-key style overrides the global default.
 		const own = (inst.settings as { keyStyle?: string }).keyStyle;
 		const style = own === "backlit" || own === "outline" ? own : state.globals.keyStyle;
-		const image = renderKey({ style, idle: state.globals.keyIdle, ...visual });
+		const image = renderKey({ style, idle: state.globals.keyIdle, ...visual, active: visual.active === true || pressed.has(inst.id) });
 		if (this.lastVisual.get(inst.id) === image) return;
 		this.lastVisual.set(inst.id, image);
 		void inst.action.setImage(image);

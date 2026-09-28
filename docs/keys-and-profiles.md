@@ -26,6 +26,22 @@
 | Grey | Numbers, pages, windows |
 | Amber | Executors, Oops, functions |
 
+## When do keys light up?
+
+| Key | Lit when |
+|---|---|
+| Group, World, Filter, View | It's the one you last called from the deck (cleared by Clear / ClearSelection / ClearAll or another one) |
+| Preset | It's the preset last applied from the deck in that preset pool (cleared by ClearActive / ClearAll) |
+| Executor | The executor is running on grandMA3. The bar shows its fader level. |
+| Encoder Bank, Layer, Resolution | That bank, layer or resolution is active |
+| MAtricks | That value is set |
+| MA Key: Highlight, Solo, Blind, Freeze, Preview | The mode is on |
+| Please / Command Line | A command is typed and waiting |
+| Color Picker | Always drawn in its colour |
+| **Every key** | **While you press it**, as instant confirmation |
+
+Executor state comes from grandMA3's feedback (line 2). Group and preset highlights reflect what the deck did. If you select something on the console itself, the deck doesn't know.
+
 ## Changing colours and styles
 
 - **Per key:** *Color* offers **Auto** (the default above), 16 palette colours, or any custom colour. *Style* is *Default*, *Backlit* or *Outline*.

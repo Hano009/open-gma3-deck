@@ -42,7 +42,7 @@ function action(id, settings = {}) {
 // Shorthands for the key grid.
 const k = (preset) => action("ma-key", { preset });
 const bank = (id) => action("bank", { bank: id });
-const exec = (n) => action("executor", { exec: String(n), func: "key" });
+const exec = (n) => action("executor", { exec: String(n), func: "go" });
 const attrDial = () => action("attribute-dial", { mode: "bank" });
 const fixedDial = (attr, label) => action("attribute-dial", { mode: "fixed", attr, label });
 const group = (n) => action("pool", { type: "Group", number: String(n) });

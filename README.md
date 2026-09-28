@@ -40,7 +40,7 @@ grandMA3 onPC on a laptop is great until you need encoders and hard keys. Open g
 
 **Command wing and executors (any Stream Deck)**
 - About 90 MA hard keys, a command line display, and console-style Store / Update / Delete onto pool and executor keys
-- Executor keys that press the button as it's assigned in the show, with names and live levels; pages
+- Executor keys (Go+, Flash, Toggle, Swap… or your own commands) with names, running state and fader level from the show; pages
 - Pool objects (groups, presets, sequences, macros, worlds…) with names from the show
 - MAtricks keys, colour picker keys, and keys for grandMA3 windows and overlays (MAtricks, Phaser Editor, Selection, Store options, Masters…)
 - Command / macro keys: press / release, toggle, or type into the command line

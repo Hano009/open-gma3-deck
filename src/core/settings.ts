@@ -71,7 +71,7 @@ export const DEFAULT_GLOBALS: GlobalSettings = {
 	listenPort: 8001,
 	feedbackLine: 2,
 	nameSync: "auto",
-	execTransport: "osc",
+	execTransport: "cmd",
 	faderArgType: "i",
 	attributeTemplate: 'Attribute "{attr}" At {layer}{sign} {abs}',
 	fineFactor: 0.1,
@@ -131,7 +131,8 @@ export function normalizeGlobals(raw: Record<string, unknown> | undefined): Glob
 		listenPort: num(r.listenPort, d.listenPort, 0, 65535),
 		feedbackLine: num(r.feedbackLine, d.feedbackLine, 0, 9999),
 		nameSync: r.nameSync === "manual" ? "manual" : "auto",
-		execTransport: r.execTransport === "cmd" ? "cmd" : "osc",
+		// Native OSC executor paths got no reaction from grandMA3 2.4.2.2 in testing; commands work.
+		execTransport: r.execTransport === "osc" ? "osc" : "cmd",
 		faderArgType: r.faderArgType === "f" ? "f" : "i",
 		attributeTemplate: str(r.attributeTemplate, d.attributeTemplate),
 		fineFactor: num(r.fineFactor, d.fineFactor, 0.0001, 1),

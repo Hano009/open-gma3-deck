@@ -6,7 +6,16 @@ import streamDeck from "@elgato/streamdeck";
 import { fillTemplate, formatNumber } from "./cmdline";
 import { banksFromShow } from "./banks";
 import { MATRICKS_PROPERTIES } from "./matricks";
-import { buildAttributeSyncCommand, buildSyncCommand, friendlyAttribute, parseAttributeChunk, parseNamesChunk } from "./names";
+import {
+	buildAttributeSyncCommand,
+	buildSyncCommand,
+	type ExecInfo,
+	friendlyAttribute,
+	parseAttributeChunk,
+	parseExecChunk,
+	parseNamesChunk,
+	parseObjectFeedback,
+} from "./names";
 import { decodePacket, encodeMessage, type OscArg, type OscMessage } from "./osc";
 import { state } from "./state";
 
@@ -58,6 +67,7 @@ class MA3Client {
 	private syncTimer: NodeJS.Timeout | undefined;
 	private syncFull = false;
 	private attrStaging: Array<{ group: string; attrs: string[] }> | undefined;
+	private execStaging: ExecInfo[] = [];
 
 	/**
 	 * Local address to listen on. grandMA3 binds the port of every OSC line (even send-only
@@ -168,11 +178,14 @@ class MA3Client {
 				return true;
 			case "begin":
 				this.staging = new Map();
+				this.execStaging = [];
 				break;
 			case "names":
 				for (const [key, name] of parseNamesChunk(payload)) (this.staging ?? state.names).set(key, name);
+				this.execStaging.push(...parseExecChunk(payload));
 				break;
 			case "done":
+				this.applyExecInfo(this.execStaging);
 				if (this.staging) state.setNames(this.staging);
 				else state.notify("names");
 				this.staging = undefined;
@@ -348,12 +361,43 @@ class MA3Client {
 		state.notify("connection");
 	}
 
+	/** Stores which object path belongs to which executor, and the executors' current state. */
+	private applyExecInfo(list: ExecInfo[]): void {
+		if (list.length === 0) return;
+		const byPath = new Map<string, string[]>();
+		for (const e of list) {
+			if (e.path) byPath.set(e.path, [...(byPath.get(e.path) ?? []), `${e.page}.${e.exec}`]);
+			const patch: { key?: boolean; fader?: number } = {};
+			if (e.running !== undefined) patch.key = e.running;
+			if (e.fader !== undefined) patch.fader = e.fader;
+			Object.assign(state.executor(e.page, e.exec), patch, { updated: Date.now() });
+		}
+		state.execByPath = byPath;
+		state.notify("executors");
+		streamDeck.logger.info(`Mapped ${list.length} executors for feedback`);
+	}
+
 	/**
 	 * Understands the executor feedback grandMA3 sends when "Send" is enabled, e.g.
 	 * `/gma3/Page1/Fader201 ,i 100` or `/gma3/Page1/Key201 ,i 1`. Extra string arguments
 	 * (such as the fader type) are ignored; the last numeric argument is taken as the value.
 	 */
 	handleFeedback(m: OscMessage): void {
+		// grandMA3 2.4: feedback addressed by object path (see parseObjectFeedback).
+		const obj = parseObjectFeedback(m.address, m.args);
+		if (obj) {
+			for (const key of state.execByPath.get(obj.path) ?? []) {
+				const [page, exec] = key.split(".").map(Number);
+				const patch: { key?: boolean; fader?: number } = {};
+				if (obj.running !== undefined && obj.running !== state.executors.get(key)?.key) {
+					streamDeck.logger.info(`feedback: executor ${key} ${obj.running ? "running" : "off"}`);
+				}
+				if (obj.running !== undefined) patch.key = obj.running;
+				if (obj.fader !== undefined) patch.fader = obj.fader;
+				state.updateExecutor(page, exec, patch);
+			}
+			return;
+		}
 		const match = /\/Page(\d+)\/(Fader|Key|Button)(\d+)$/i.exec(m.address);
 		if (!match) return;
 		const page = parseInt(match[1], 10);

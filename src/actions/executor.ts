@@ -64,7 +64,7 @@ export class Executor extends DeckAction<Settings> {
 			this.swallowed.add(ev.action.id);
 			return;
 		}
-		const func = s.func ?? "key";
+		const func = s.func ?? "go";
 		if (func === "key") return ma3.executorKey(page, exec, true);
 		const template = func === "custom" ? s.press : FUNCTIONS[func]?.press;
 		ma3.cmds(splitCommands(fillTemplate(template ?? "", { p: page, e: exec, page, exec })));
@@ -74,7 +74,7 @@ export class Executor extends DeckAction<Settings> {
 		if (this.swallowed.delete(ev.action.id)) return;
 		const s = ev.payload.settings;
 		const { page, exec } = this.target(s);
-		const func = s.func ?? "key";
+		const func = s.func ?? "go";
 		if (func === "key") return ma3.executorKey(page, exec, false);
 		const template = func === "custom" ? s.release : FUNCTIONS[func]?.release;
 		ma3.cmds(splitCommands(fillTemplate(template ?? "", { p: page, e: exec, page, exec })));
@@ -91,7 +91,8 @@ export class Executor extends DeckAction<Settings> {
 			label: text(s.label) || state.name(`Exec ${page}.${exec}`) || `Exec ${exec}`,
 			bottom: `${page}.${exec}`,
 			color: text(s.color, "#f0a830"),
-			active: live?.key === true || (fader ?? 0) > 0,
+			// Lit while the executor runs (grandMA3 feedback); the bar shows the fader level.
+			active: live?.key === true,
 			bar: fader,
 		});
 	}

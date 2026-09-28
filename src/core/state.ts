@@ -7,7 +7,7 @@ import { DEFAULT_GLOBALS, type GlobalSettings, normalizeGlobals } from "./settin
 
 export type Resolution = "coarse" | "fine" | "ultra";
 
-export type Topic = "globals" | "page" | "bank" | "resolution" | "cmdline" | "toggles" | "executors" | "connection" | "names" | "layer" | "matricks";
+export type Topic = "globals" | "page" | "bank" | "resolution" | "cmdline" | "toggles" | "executors" | "connection" | "names" | "layer" | "matricks" | "called" | "pressed";
 
 /** Live value of an executor, fed by OSC feedback from grandMA3 or by our own dials. */
 export type ExecutorState = {
@@ -52,6 +52,13 @@ class DeckState extends EventEmitter {
 	/** Names synced from grandMA3, keyed like "Group 3", "Preset 4.12", "Exec 1.201", "Page 2". */
 	names = new Map<string, string>();
 	namesSyncedAt = 0;
+	/** grandMA3 object path ("14.14.1.6.2") -> executors ("1.104") showing that object. */
+	execByPath = new Map<string, string[]>();
+	/**
+	 * Last object called from the deck per kind ("Group" -> "3", "Preset 4" -> "4.1", "World" -> "1"),
+	 * so those keys can light up like a selected pool object on the console.
+	 */
+	called = new Map<string, string>();
 	/** Pages used by fixed-page executor keys / dials (instance id -> page), for name sync. */
 	pageRefs = new Map<string, number>();
 
@@ -176,6 +183,20 @@ class DeckState extends EventEmitter {
 	setToggle(key: string, on: boolean): void {
 		this.toggles.set(key, on);
 		this.notify("toggles");
+	}
+
+	setCalled(kind: string, value: string | undefined): void {
+		if (value === undefined) this.called.delete(kind);
+		else this.called.set(kind, value);
+		this.notify("called");
+	}
+
+	/** What Clear-type keys do to the selection / programmer highlights. */
+	clearCalled(level: "selection" | "all"): void {
+		for (const kind of [...this.called.keys()]) {
+			if (kind === "Group" || (level === "all" && kind.startsWith("Preset"))) this.called.delete(kind);
+		}
+		this.notify("called");
 	}
 
 	setNames(names: Map<string, string>): void {

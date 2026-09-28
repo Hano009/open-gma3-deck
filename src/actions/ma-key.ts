@@ -90,6 +90,9 @@ export class MaKey extends DeckAction<Settings> {
 				break;
 			case "exec":
 				ma3.cmd(k.token);
+				// Keep the lit Group / Preset keys in step with what the clear keys do.
+				if (k.token === "ClearSelection" || k.token === "Fixture Thru") state.clearCalled("selection");
+				if (k.token === "ClearActive" || k.token === "ClearAll") state.clearCalled("all");
 				break;
 			case "toggle": {
 				ma3.cmd(k.token);
@@ -101,7 +104,10 @@ export class MaKey extends DeckAction<Settings> {
 				break;
 			case "clear":
 				if (state.cmdline) state.setCmdline("");
-				else ma3.cmd("Clear");
+				else {
+					ma3.cmd("Clear");
+					state.clearCalled("selection");
+				}
 				break;
 			case "backspace":
 				state.backspaceCmdline();

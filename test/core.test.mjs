@@ -10,7 +10,17 @@ import { appendToken, backspace, fillTemplate, formatNumber, removeLastToken, sp
 import { KEY_PRESET_LIST } from "../src/core/keys.ts";
 import { decodePacket, encodeMessage } from "../src/core/osc.ts";
 import { luminance, resolveColor, shade, textOn } from "../src/core/colors.ts";
-import { buildAttributeSyncLua, buildSyncCommand, buildSyncLua, friendlyAttribute, parseAttributeChunk, parseNamesChunk, poolKey } from "../src/core/names.ts";
+import {
+	buildAttributeSyncLua,
+	buildSyncCommand,
+	buildSyncLua,
+	friendlyAttribute,
+	parseAttributeChunk,
+	parseExecChunk,
+	parseNamesChunk,
+	parseObjectFeedback,
+	poolKey,
+} from "../src/core/names.ts";
 import { normalizeGlobals } from "../src/core/settings.ts";
 import { fitLabel, wrap } from "../src/core/text.ts";
 
@@ -200,4 +210,26 @@ test("matricks: properties and axis cycling", () => {
 	assert.equal(nextAxis("ZBlock"), "XBlock");
 	assert.equal(nextAxis("FadeFromX"), "FadeFromY");
 	assert.equal(nextAxis("DelayToZ"), "DelayToX");
+});
+
+test("executors: sync entries carry object path, running state and fader", () => {
+	const payload = "Exec1|104=OW Viper Odd~.14.14.1.6.2~1~100.0|204=Move Speed~.14.14.1.9.3~~50.0";
+	assert.deepEqual(parseNamesChunk(payload), [
+		["Exec 1.104", "OW Viper Odd"],
+		["Exec 1.204", "Move Speed"],
+	]);
+	assert.deepEqual(parseExecChunk(payload), [
+		{ page: 1, exec: 104, path: "14.14.1.6.2", running: true, fader: 100 },
+		{ page: 1, exec: 204, path: "14.14.1.9.3", running: undefined, fader: 50 },
+	]);
+	assert.deepEqual(parseExecChunk("Groups|1=Vipers"), []);
+});
+
+test("executors: object feedback as sent by grandMA3 2.4", () => {
+	// Captured from grandMA3 onPC 2.4.2.2 with Send enabled.
+	assert.deepEqual(parseObjectFeedback("/gma3/14.14.1.6.2", ["Go+", 1, "OW Viper Odd 1 [100%/Open White]"]), { path: "14.14.1.6.2", running: true });
+	assert.deepEqual(parseObjectFeedback("/gma3/14.14.1.6.2", ["FaderMaster", 1, 50]), { path: "14.14.1.6.2", fader: 50 });
+	assert.deepEqual(parseObjectFeedback("/gma3/14.14.1.6.2", ["Off", 1]), { path: "14.14.1.6.2", running: false });
+	assert.equal(parseObjectFeedback("/gma3/Page1/Fader201", [100]), undefined);
+	assert.equal(parseObjectFeedback("/gma3/deck/names", ["x"]), undefined);
 });

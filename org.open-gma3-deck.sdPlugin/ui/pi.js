@@ -29,8 +29,8 @@ const STYLE = {
 const LABEL = { key: "label", label: "Label", type: "text", placeholder: "automatic" };
 
 const EXEC_FUNCTIONS = [
-	["key", "Button as assigned in grandMA3 (OSC key)"],
 	["go", "Go+"],
+	["key", "Native OSC key (experimental: no reaction on grandMA3 2.4.2.2)"],
 	["goback", "Go-"],
 	["pause", "Pause"],
 	["toggle", "Toggle"],
@@ -123,7 +123,7 @@ const SCHEMAS = {
 		fields: [
 			{ key: "page", label: "Page", type: "number", placeholder: "follow Page keys", min: 1 },
 			{ key: "exec", label: "Executor", type: "number", placeholder: "201", min: 1, hint: "Executor number as shown in grandMA3, e.g. 201." },
-			{ key: "func", label: "Function", type: "select", options: EXEC_FUNCTIONS, default: "key" },
+			{ key: "func", label: "Function", type: "select", options: EXEC_FUNCTIONS, default: "go" },
 			{ key: "press", label: "On press", type: "textarea", placeholder: "Go+ Page {p}.{e}", hint: "Use {p} for the page and {e} for the executor number.", show: (s) => s.func === "custom" },
 			{ key: "release", label: "On release", type: "textarea", placeholder: "optional", show: (s) => s.func === "custom" },
 			LABEL,
@@ -321,7 +321,7 @@ const SCHEMAS = {
 				label: "Push",
 				type: "select",
 				options: [
-					["key", "Press executor button"],
+					["key", "Go+ on the executor"],
 					["toggle", "Toggle 0 / last"],
 					["none", "Nothing"],
 				],
@@ -429,10 +429,10 @@ const GLOBAL_FIELDS = [
 		label: "Executors via",
 		type: "select",
 		options: [
-			["osc", "Native OSC (/PageX/KeyY, /FaderY)"],
-			["cmd", "Commands (Go+ / FaderMaster)"],
+			["cmd", "Commands (Go+ / FaderMaster), recommended"],
+			["osc", "Native OSC paths (experimental)"],
 		],
-		default: "osc",
+		default: "cmd",
 	},
 	{
 		key: "faderArgType",
