@@ -139,8 +139,8 @@ const touchFolders = {
 		...[100, 200, 300].flatMap((base) => [range(base + 1, base + 8).map(exec), range(base + 9, base + 15).map(exec)]),
 	]),
 	windows: grid([
-		[BACK, k("immediate:oops"), k("numpad:clear"), k("immediate:select-all"), k("immediate:clear-selection"), k("modes:highlight"), k("modes:blind"), k("modes:freeze")],
-		...chunk(MENUS.map(([id]) => menu(id)), 8),
+		[BACK, menu("Escape"), k("immediate:oops"), k("numpad:clear"), k("immediate:select-all"), k("immediate:clear-selection"), k("modes:highlight"), k("modes:blind")],
+		...chunk(MENUS.filter(([id]) => id !== "Escape").map(([id]) => menu(id)), 8),
 	]),
 };
 

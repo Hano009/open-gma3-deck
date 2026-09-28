@@ -95,7 +95,10 @@ With a **Group** set, the key colours that group in one press: it selects the gr
 
 ### Window / Menu
 
-Opens a grandMA3 menu, overlay or window: Menu, Command, Selection, MAtricks, Phaser Editor, Playbacks, Masters, Encoders, At, At Filter, Store Options, Oops, Command History, Running Playbacks, Pools, Add Window, Patch, Settings, Backup, Messages, System Monitor. You can also open any other grandMA3 menu by typing its name.
+Opens a grandMA3 menu, overlay or window: Menu, Command, Selection, MAtricks, Phaser Editor, Playbacks, Masters, Master Overview (2.5+), Locate (2.5+), Encoders, At, At Filter, Store Options, Oops, Command History, Running Playbacks, Pools, Add Window, Settings, Backup, Messages.
+
+- **Close window (Esc)** presses Escape on grandMA3, closing the topmost window. This is useful on touch screens.
+- You can open any other grandMA3 menu by typing its name. **Patch** is left out of the list on purpose: it puts grandMA3 into patch mode, which blocks other menus until you leave it.
 
 ### Executor Page
 

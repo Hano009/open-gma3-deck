@@ -4,6 +4,24 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.6] - 2026-09-28
+
+### Added
+
+- Tested live on grandMA3 2.5.1.0: all commands, name and bank sync, and executor feedback
+  (including the new object paths and fader feedback format).
+- Window / Menu key: **Close window (Esc)**, plus grandMA3 2.5's **Master Overview** and **Locate**.
+  The touch profile's Windows folder has Close window in its toolbar.
+- `npm run command-test -- --only=<section>` runs a single section.
+
+### Changed
+
+- **Patch** is no longer in the Window / Menu list: it puts grandMA3 into patch mode, which blocks
+  other menus (and throws a Lua error in 2.5.1.0 onPC). It can still be opened by name.
+- **System Monitor** is removed from the list: `WindowSystemMonitor` is a window type for screens,
+  not a menu, so `Menu` can't open it.
+- The command test closes every window with Escape after opening it.
+
 ## [0.1.5] - 2026-09-28
 
 ### Fixed

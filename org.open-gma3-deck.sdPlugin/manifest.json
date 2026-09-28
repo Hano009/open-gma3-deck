@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
 	"UUID": "org.open-gma3-deck",
 	"Name": "Open grandMA3 Deck",
-	"Version": "0.1.5.0",
+	"Version": "0.1.6.0",
 	"Author": "Fredrik Fedoriw",
 	"Description": "Turn your Stream Deck into a grandMA3 command wing and executor extension. Attribute encoders with layers and MAtricks on the Stream Deck + and + XL dials, a full command keypad, executors with live feedback, names and encoder banks read from your show, pools, pages, colour picker and window keys. Talks to grandMA3 onPC and consoles over plain OSC: no extra software, no licences. Free and open source (MIT). Not affiliated with MA Lighting.",
 	"Category": "Open grandMA3 Deck",
@@ -209,7 +209,7 @@
 			"UUID": "org.open-gma3-deck.menu",
 			"Name": "Window / Menu",
 			"Icon": "imgs/actions/menu/icon",
-			"Tooltip": "Opens a grandMA3 menu, overlay or window: Command, MAtricks, Phaser Editor, Playbacks, Masters, Store options and more.",
+			"Tooltip": "Opens a grandMA3 menu, overlay or window (Command, MAtricks, Phaser Editor, Playbacks, Masters, Store options…), or closes the topmost one with Esc.",
 			"Controllers": [
 				"Keypad"
 			],

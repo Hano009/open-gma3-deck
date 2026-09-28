@@ -65,7 +65,7 @@ Everything goes over OSC / UDP. No grandMA3 plugin or Lua file is installed.
 | Name / bank sync reply | `/<prefix>/deck/{begin,names,done,attrbegin,attrs,attrdone} ,s "…"`, sent by grandMA3 with `SendOSC <feedback line>` |
 | Executor feedback | `/<prefix>/14.14.1.6.2 ,sis "Go+" 1 "…"` / `,sii "FaderMaster" 1 50` / `,si "Off" 1`: addressed by the **object path** of what runs on the executor. The name sync reports each executor's object path, running state and fader level, so the plugin can map the feedback. |
 
-Command syntax used by the plugin, verified against grandMA3 2.4.2.2:
+Command syntax used by the plugin, verified against grandMA3 2.4.2.2 and 2.5.1.0:
 
 | Feature | Command |
 |---|---|
@@ -83,7 +83,10 @@ Lua facts the sync relies on:
 - `AttributeDefinitions.Attributes[i].feature:Parent().name`. The feature group name.
 - `Cmd('SendOSC <line> "/address,s,value"')` needs *Send Command = Yes* on that line.
 - Executor state: `exec.object:IsRunningPlayback()` (grandMA3 2.5+), falling back to `HasActivePlayback()` (deprecated in 2.5), and `exec:GetFader({})`. The object path is built from `.index` up the `:Parent()` chain (bounded loop: the root is its own parent).
-- Native OSC executor paths (`/Page1/Key104`, `/Page1/Fader104`, with or without a data pool) got no reaction on grandMA3 2.4.2.2, so the plugin uses commands.
+- Native OSC executor paths (`/Page1/Key104`, `/Page1/Fader104`, with or without a data pool) got no reaction on grandMA3 2.4.2.2 or 2.5.1.0, so the plugin uses commands.
+- Object paths change between versions (sequence 2 was `14.14.1.6.2` in 2.4 and `14.14.1.7.2` in 2.5), so they're always read from the show during the sync, never hard-coded.
+- 2.5 fader feedback carries the name as an extra argument (`["FaderMaster", 1, 60, "OW Viper Odd"]`).
+- `Keyboard(1, 'press', 'Escape')` closes the topmost window (used by *Close window (Esc)* and the command test).
 
 ## Checking a new grandMA3 version
 

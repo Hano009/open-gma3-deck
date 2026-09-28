@@ -7,16 +7,18 @@
 //   npm run command-test                         127.0.0.1:8000, prefix gma3
 //   npm run command-test -- 192.168.1.10 8000 gma3
 //   npm run command-test -- --dry                only print the commands
+//   npm run command-test -- --only=windows       only sections whose title contains "windows"
 import dgram from "node:dgram";
 
 import { LAYERS } from "../src/core/layers.ts";
 import { MATRICKS_PROPERTIES } from "../src/core/matricks.ts";
-import { MENUS } from "../src/core/menus.ts";
+import { ESCAPE_COMMAND, ESCAPE_ID, MENUS } from "../src/core/menus.ts";
 import { buildAttributeSyncCommand, buildSyncCommand } from "../src/core/names.ts";
 import { encodeMessage } from "../src/core/osc.ts";
 
 const args = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 const dry = process.argv.includes("--dry");
+const only = (process.argv.find((a) => a.startsWith("--only=")) ?? "").slice(7).toLowerCase();
 const host = args[0] ?? "127.0.0.1";
 const port = Number(args[1] ?? 8000);
 const prefix = args[2] ?? "gma3";
@@ -84,7 +86,8 @@ const sections = [
 		"MA Keys: modes (on, then off)",
 		["Highlight", "Highlight", "Solo", "Solo", "Blind", "Blind", "Freeze", "Freeze", "Preview", "Preview"],
 	],
-	["Windows and menus", MENUS.map(([id]) => `Menu "${id}"`)],
+	// Each window is closed again with Escape, so the next one is not blocked by it.
+	["Windows and menus (each closed with Esc)", MENUS.filter(([id]) => id !== ESCAPE_ID).flatMap(([id]) => [`Menu "${id}"`, ESCAPE_COMMAND])],
 	["Clean up (MA Keys: ClearSelection, ClearActive, ClearAll)", ["ClearSelection", "ClearActive", "ClearAll"]],
 ];
 
@@ -96,6 +99,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 let count = 0;
 for (const [title, commands] of sections) {
+	if (only && !title.toLowerCase().includes(only)) continue;
 	const header = `Echo "=== ${title} ==="`;
 	console.log(`\n${header}`);
 	if (!dry) await send(header);

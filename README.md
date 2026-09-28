@@ -56,7 +56,7 @@ grandMA3 onPC on a laptop is great until you need encoders and hard keys. Open g
 
 | | |
 |---|---|
-| grandMA3 | onPC and consoles, 2.x. Every command is verified against **2.4.2.2**. The **2.5** release notes (up to 2.5.1.0) list no changes to what the plugin uses, and the one deprecated Lua function it relied on is handled; 2.5 hasn't been tested live yet. |
+| grandMA3 | onPC and consoles, 2.x. Tested live on **2.4.2.2** and **2.5.1.0**: all commands, name and bank sync, and executor feedback. |
 | Stream Deck app | 7.1 or newer |
 | Windows | 10 / 11. Developed and tested on Windows. |
 | macOS | 13 Ventura or newer. The plugin has no platform-specific code and the manifest declares macOS, but it hasn't been tested on a Mac yet. [Reports welcome](https://github.com/Hano009/open-gma3-deck/issues). |

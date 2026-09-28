@@ -5,7 +5,7 @@ import { formatNumber } from "../core/cmdline";
 import { LAYERS, type Layer, layerInfo } from "../core/layers";
 import { ma3 } from "../core/ma3";
 import { matricksProperty, nextAxis } from "../core/matricks";
-import { MENUS } from "../core/menus";
+import { ESCAPE_COMMAND, ESCAPE_ID, MENUS } from "../core/menus";
 import { state } from "../core/state";
 import { DeckAction, float, type Instance, text } from "./base";
 
@@ -273,7 +273,9 @@ export class MenuKey extends DeckAction<MenuSettings> {
 	}
 
 	override onKeyDown(ev: KeyDownEvent<MenuSettings>): void {
-		ma3.cmd(`Menu "${this.menu(ev.payload.settings).id.replace(/"/g, "")}"`);
+		const id = this.menu(ev.payload.settings).id;
+		if (id === ESCAPE_ID) ma3.cmd(ESCAPE_COMMAND);
+		else ma3.cmd(`Menu "${id.replace(/"/g, "")}"`);
 	}
 
 	protected render(inst: Instance<MenuSettings>): void {
