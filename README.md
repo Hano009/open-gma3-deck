@@ -48,7 +48,7 @@ grandMA3 onPC on a laptop is great until you need encoders and hard keys. Open g
 **Built for shows**
 - Sessions: saved connections for each console or onPC, switched from a popup or a key
 - Names and encoder banks read from the show with a single `Lua` command line; nothing is imported into your show
-- Ready-made profiles for the Stream Deck XL, + and + XL, a group-based colour picker, and an 8 × 8 pre-programming helper for touch screens (Virtual Stream Deck) with folders
+- [Ready-made profiles](#ready-made-profiles) for the Stream Deck XL, + and + XL, a group-based colour picker, and an 8 × 8 pre-programming helper for touch screens (Virtual Stream Deck) with folders
 - 16-colour palette, backlit / outline styles, automatic text contrast
 - No runtime dependencies. The settings UI works offline.
 
@@ -70,6 +70,22 @@ grandMA3 onPC on a laptop is great until you need encoders and hard keys. Open g
    - [grandMA3 onPC on another computer](docs/setup-remote-onpc.md)
    - [grandMA3 console](docs/setup-console.md)
 3. **Connect:** in any action's settings, open *grandMA3 connection*, enter the IP, press **Send test command**, then **Sync names now**.
+
+## Ready-made profiles
+
+Each release includes profiles you can double-click to import. Every key can be changed afterwards in the Stream Deck app.
+
+| Profile | Device | What's on it |
+|---|---|---|
+| **Programmer (XL)** | Stream Deck XL | Keypad, Store / Update / Delete / Oops, Please and Clear, encoder banks, Fixture / Group / Preset, Highlight, command line, status |
+| **Executors (XL)** | Stream Deck XL | Page − / +, executors 101–114 and 201–215 following the page, with names and running state |
+| **Color Picker (XL)** | Stream Deck XL | One row per group (1–4) × 8 colours: one press selects the group and colours it |
+| **Encoders (+)** | Stream Deck + | Six bank keys, layer and resolution, and 4 attribute encoders |
+| **Programmer (+ XL)** | Stream Deck + XL | The programmer layout on 9 × 4 keys, and 6 attribute encoders |
+| **Color Picker (+ XL)** | Stream Deck + XL | Group keys and 4 groups × 8 colours, plus Red / Green / Blue / White / Hue / Saturation dials |
+| **Pre-programming (touch)** | Virtual Stream Deck, 8 × 8 | For touch screens: keypad, command keys, banks and executors on one page, with **Colors**, **MAtricks**, **Pools**, **Executors** and **Windows** folders |
+
+Full layouts, including the folders of the touch profile: [Key colours, styles and profiles](docs/keys-and-profiles.md#ready-made-profiles).
 
 ## Documentation
 
